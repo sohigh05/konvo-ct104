@@ -1655,6 +1655,115 @@
         link.remove();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
       });
+      // Iringan instrumental asal berinspirasikan gamelan Melayu.
+      // Motif dimainkan perlahan dengan bunyi bilah, bonang dan gong.
+      function setupGamelan() {
+        const AudioEngine = window.AudioContext || window.webkitAudioContext;
+        if (!AudioEngine) return;
+
+        const context = new AudioEngine();
+        const master = context.createGain();
+        master.gain.value = 0.15;
+        master.connect(context.destination);
+
+        const scale = [220, 248, 294, 332, 392];
+        const phrases = [
+          [0, 2, 3, 2, 1, 0, 1, 2],
+          [3, 4, 5, 4, 3, 2, 1, 2],
+          [0, 1, 2, 3, 4, 3, 2, 1],
+          [2, 3, 2, 1, 0, 1, 2, 0],
+        ];
+        const bar = [
+          [1, 0.75],
+          [2.01, 0.28],
+          [2.77, 0.15],
+          [5.23, 0.035],
+        ];
+        const kettle = [
+          [1, 0.8],
+          [1.52, 0.22],
+          [2.46, 0.09],
+        ];
+        const gong = [
+          [1, 0.78],
+          [1.34, 0.3],
+          [1.76, 0.18],
+          [2.47, 0.08],
+        ];
+        const beat = 0.72;
+        let step = 0;
+        let next = 0;
+        let timer;
+
+        function strike(frequency, when, duration, power, partials) {
+          partials.forEach(([ratio, weight], index) => {
+            const oscillator = context.createOscillator();
+            const envelope = context.createGain();
+            const decay = duration / (1 + index * 0.42);
+            oscillator.frequency.value = frequency * ratio;
+            envelope.gain.setValueAtTime(0.0001, when);
+            envelope.gain.exponentialRampToValueAtTime(
+              power * weight,
+              when + 0.016,
+            );
+            envelope.gain.exponentialRampToValueAtTime(0.0001, when + decay);
+            oscillator.connect(envelope);
+            envelope.connect(master);
+            oscillator.start(when);
+            oscillator.stop(when + decay + 0.02);
+          });
+        }
+
+        function schedule() {
+          if (context.state !== "running") return;
+          next = Math.max(next, context.currentTime);
+          while (next < context.currentTime + 0.2) {
+            const measure = Math.floor(step / 8);
+            const pulse = step % 8;
+            const degree = phrases[measure % phrases.length][pulse];
+            const note =
+              scale[degree % scale.length] *
+              2 ** Math.floor(degree / scale.length);
+            strike(note * 2, next, 1.1, pulse % 2 ? 0.13 : 0.2, bar);
+            if (pulse % 2 === 0) {
+              strike(note, next + beat * 0.48, 0.75, 0.1, kettle);
+            }
+            if (pulse === 0 || pulse === 4) {
+              strike(
+                pulse === 0 ? 73.4 : 110,
+                next,
+                pulse === 0 ? 2.9 : 1.25,
+                0.23,
+                gong,
+              );
+            }
+            step += 1;
+            next += beat;
+          }
+        }
+
+        // Jika autoplay disekat, interaksi biasa pada laman memulakan iringan.
+        const events = ["click", "touchend", "keydown"];
+        function start() {
+          context
+            .resume()
+            .then(() => {
+              if (context.state !== "running" || timer !== undefined) return;
+              events.forEach((event) =>
+                window.removeEventListener(event, start),
+              );
+              next = context.currentTime + 0.05;
+              schedule();
+              timer = window.setInterval(schedule, 100);
+            })
+            .catch(() => {});
+        }
+
+        events.forEach((event) => window.addEventListener(event, start));
+        start();
+      }
+
+      setupGamelan();
     </script>
   </body>
 </html>
