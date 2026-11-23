@@ -649,6 +649,64 @@
           animation-delay: 0.18s;
         }
       }
+      /* Serlahkan butang kalendar bersama contoh tarikh sidang pada ikon. */
+      .calendar-cta {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 1rem;
+        margin: 0.85rem 0;
+        padding: clamp(0.85rem, 3vw, 1.25rem);
+        border-radius: 15px;
+        background: linear-gradient(135deg, #55151d, #952631);
+        color: #fff;
+      }
+      .calendar-cta h3 {
+        margin-bottom: 0.2rem;
+        font-size: 1.18rem;
+      }
+      .calendar-cta p {
+        margin: 0;
+        color: #ffebed;
+      }
+      .calendar-cta button {
+        background: #fff;
+        color: #751621;
+        gap: 0.55rem;
+      }
+      .calendar-icon {
+        display: grid;
+        place-items: center;
+        min-width: 3.1rem;
+        border: 1px solid #f3bdc6;
+        border-radius: 10px;
+        overflow: hidden;
+        line-height: 1.25;
+        background: #fff;
+        color: #751621;
+      }
+      .calendar-icon span {
+        width: 100%;
+        padding: 0.15rem;
+        text-align: center;
+        background: #f8dbe0;
+        font-size: 0.65rem;
+        font-weight: 800;
+      }
+      .calendar-icon strong {
+        padding: 0.2rem;
+        font-size: 1.4rem;
+      }
+      @media (max-width: 640px) {
+        .calendar-cta {
+          grid-template-columns: auto minmax(0, 1fr);
+          gap: 0.65rem;
+        }
+        .calendar-cta button {
+          grid-column: 1 / -1;
+          justify-content: center;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1032,21 +1090,34 @@
       <!-- Tarikh pada setiap kad membantu graduan mengimbas jadual mengikut hari. -->
       <section id="jadual" data-view>
         <h2>Jadual CT104</h2>
-        <div class="actions">
-          <button type="button" id="calendar">
-            Muat turun kalendar (.ics)
+        <!-- Ajakan untuk menyimpan tarikh dan panduan selepas fail dimuat turun. -->
+        <aside class="calendar-cta" aria-labelledby="tajuk-kalendar">
+          <div class="calendar-icon" aria-hidden="true">
+            <span>DIS</span><strong>20</strong>
+          </div>
+          <div>
+            <h3 id="tajuk-kalendar">Simpan tarikh konvo sekarang</h3>
+            <!-- Terangkan tindakan seterusnya supaya pengguna tahu cara menggunakan fail. -->
+            <p id="panduan-kalendar">
+              Buka fail .ics dalam aplikasi kalendar untuk tambah peringatan.
+              Pilih satu hari untuk ambil jubah.
+            </p>
+          </div>
+          <button
+            type="button"
+            id="calendar"
+            aria-describedby="panduan-kalendar"
+          >
+            Tambah ke kalendar saya <span aria-hidden="true">↓</span>
           </button>
+        </aside>
+        <div class="actions">
           <a
             class="button"
             href="https://www.google.com/maps/search/?api=1&amp;query=World+Trade+Centre+Kuala+Lumpur"
             >Peta WTC KL</a
           >
         </div>
-        <!-- Fail kalendar mengandungi kedua-dua pilihan hari mengambil jubah. -->
-        <p class="muted">
-          Buka fail .ics dalam aplikasi kalendar dan tambah acara. Simpan satu
-          tarikh pengambilan jubah sahaja.
-        </p>
         <div class="schedule-grid">
           <article id="raptai" class="card schedule-card">
             <div class="event-heading">
