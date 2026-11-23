@@ -498,6 +498,47 @@
             border-color 0.25s ease;
         }
       }
+      /* Pisahkan tiga fasa supaya tindakan mudah dicari. */
+      .phase-title {
+        position: relative;
+        margin: 1.35rem 0 0.5rem;
+        padding: 0.55rem 0.8rem;
+        border-left: 3px solid var(--brand-red);
+        border-radius: 0 8px 8px 0;
+        background: #f4e5e8;
+      }
+      .short-list {
+        margin: 0.25rem 0 0.7rem;
+      }
+      .journey-step:has(+ .phase-title)::after {
+        display: none;
+      }
+      .journey-step .actions {
+        align-items: center;
+      }
+      /* Setiap pilihan navigasi membuka satu bahagian. */
+      [data-view][hidden] {
+        display: none;
+      }
+      nav a[aria-current="page"] {
+        color: #751621;
+        background: #f8e9eb;
+        border-radius: 8px;
+      }
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        margin-bottom: 0.35rem;
+      }
+      .poster-link {
+        margin-bottom: 0.7rem;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        [data-view].view-in {
+          animation: muncul 0.25s ease-out both;
+        }
+      }
     </style>
   </head>
   <body>
@@ -531,146 +572,142 @@
           <a href="#jadual"><span aria-hidden="true">▦</span>Jadual</a>
         </li>
         <li>
-          <a href="#makluman"><span aria-hidden="true">ⓘ</span>Makluman</a>
+          <a href="#makluman"><span aria-hidden="true">ⓘ</span>Rujukan</a>
         </li>
       </ul>
     </nav>
     <main id="utama">
-      <!-- Ringkasan sidang, waktu berkumpul dan pautan langkah pertama. -->
-      <header>
-        <!-- Kenalkan majlis dan program pada muka utama. -->
-        <p class="eyebrow">Konvokesyen KPTM ke-42</p>
-        <h1>Konvo CT104</h1>
-        <!-- Kenalkan majlis dan program pada muka utama. -->
-        <p>Diploma in Multimedia · KPTM Ipoh</p>
-        <!-- Paparkan sidang, waktu berkumpul dan lokasi sebaik halaman dibuka. -->
-        <p class="hero-info">
-          <strong>Sidang 4 · <mark>Ahad, 20 Disember 2026</mark></strong
-          ><br />Berkumpul 12.30 tengah hari · Majlis bermula 2 petang<br />Dewan
-          Merdeka, World Trade Centre Kuala Lumpur
-        </p>
-        <a class="button primary" href="#langkah">Semak langkah pertama</a>
-        <!-- Pautkan pembaca kepada bahan rujukan yang berkaitan. -->
-        <p class="source" style="margin-top: 0.7rem">
-          <a href="https://convo.kptm.edu.my/web/senarai-sidang/"
-            >Senarai sidang</a
+      <div id="ringkasan" data-view>
+        <!-- Ringkasan sidang, waktu berkumpul dan pautan langkah pertama. -->
+        <header>
+          <!-- Kenalkan majlis dan program pada muka utama. -->
+          <p class="eyebrow">Konvokesyen KPTM ke-42</p>
+          <h1>Konvo CT104</h1>
+          <!-- Kenalkan majlis dan program pada muka utama. -->
+          <p>Diploma in Multimedia · KPTM Ipoh</p>
+          <!-- Paparkan sidang, waktu berkumpul dan lokasi sebaik halaman dibuka. -->
+          <p class="hero-info">
+            <strong>Sidang 4 · <mark>Ahad, 20 Disember 2026</mark></strong
+            ><br />Berkumpul 12.30 tengah hari · Majlis bermula 2 petang<br />Dewan
+            Merdeka, World Trade Centre Kuala Lumpur
+          </p>
+          <a class="button primary" href="#langkah">Mula dengan SKPG</a>
+          <!-- Pautkan pembaca kepada bahan rujukan yang berkaitan. -->
+          <p class="source" style="margin-top: 0.7rem">
+            <a href="https://convo.kptm.edu.my/web/senarai-sidang/"
+              >Senarai sidang</a
+            >
+            ·
+            <a
+              href="https://convo.kptm.edu.my/web/wp-content/uploads/2026/10/Surat-Jemputan-Majlis-Konvokesyen-KPTM-ke-42-2026.pdf"
+              >Surat jemputan</a
+            >
+          </p>
+        </header>
+        <!-- Nyatakan status panduan supaya pembaca tahu tempat menyemak arahan terkini. -->
+        <aside class="card" aria-label="Status panduan">
+          <strong>Panduan tidak rasmi untuk graduan CT104</strong><br />
+          Disemak pada 23 November 2026. Untuk arahan terkini, rujuk
+          <a href="https://convo.kptm.edu.my/web/"
+            >portal rasmi Konvokesyen KPTM</a
           >
-          ·
-          <a
-            href="https://convo.kptm.edu.my/web/wp-content/uploads/2026/10/Surat-Jemputan-Majlis-Konvokesyen-KPTM-ke-42-2026.pdf"
-            >Surat jemputan</a
-          >
-        </p>
-      </header>
-      <!-- Nyatakan status panduan supaya pembaca tahu tempat menyemak arahan terkini. -->
-      <aside class="card" aria-label="Status panduan">
-        <strong>Panduan tidak rasmi untuk graduan CT104</strong><br />
-        Disemak pada 23 November 2026. Untuk arahan terkini, rujuk
-        <a href="https://convo.kptm.edu.my/web/"
-          >portal rasmi Konvokesyen KPTM</a
-        >
-        atau <a href="mailto:urusetia_konvo@kptm.edu.my">hubungi urus setia</a>.
-      </aside>
-      <!-- Peta ringkas untuk melompat ke peringkat yang sedang diuruskan. -->
-      <section class="route" aria-labelledby="tajuk-laluan">
-        <h2 id="tajuk-laluan">Perjalanan konvokesyen</h2>
-        <ol class="route-map">
-          <li>
-            <a href="#langkah"
-              ><span class="route-node" aria-hidden="true">1</span
-              ><span
-                ><strong>Sehingga 30 November</strong
-                ><small>SKPG, bayaran dan pengesahan</small></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="#raptai"
-              ><span class="route-node" aria-hidden="true">2</span
-              ><span
-                ><strong>16–18 Disember</strong
-                ><small>Raptai dan pengambilan jubah</small></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="#sidang"
-              ><span class="route-node" aria-hidden="true">3</span
-              ><span
-                ><strong>20 Disember</strong
-                ><small>Lapor diri dan hadir Sidang 4</small></span
-              ></a
-            >
-          </li>
-          <li>
-            <a href="#selepas"
-              ><span class="route-node" aria-hidden="true">4</span
-              ><span
-                ><strong>Selepas sidang</strong
-                ><small>Pulang jubah dan ambil skrol</small></span
-              ></a
-            >
-          </li>
-        </ol>
-      </section>
+          atau
+          <a href="mailto:urusetia_konvo@kptm.edu.my">hubungi urus setia</a>.
+        </aside>
+        <!-- Peta ringkas untuk melompat ke peringkat yang sedang diuruskan. -->
+        <section class="route" aria-labelledby="tajuk-laluan">
+          <h2 id="tajuk-laluan">Perjalanan konvokesyen</h2>
+          <ol class="route-map">
+            <li>
+              <a href="#langkah"
+                ><span class="route-node" aria-hidden="true">1</span
+                ><span
+                  ><strong>Sehingga 30 November</strong
+                  ><small>SKPG, bayaran dan pengesahan</small></span
+                ></a
+              >
+            </li>
+            <li>
+              <a href="#raptai"
+                ><span class="route-node" aria-hidden="true">2</span
+                ><span
+                  ><strong>16–18 Disember</strong
+                  ><small>Raptai dan pengambilan jubah</small></span
+                ></a
+              >
+            </li>
+            <li>
+              <a href="#sidang"
+                ><span class="route-node" aria-hidden="true">3</span
+                ><span
+                  ><strong>20 Disember</strong
+                  ><small>Lapor diri dan hadir Sidang 4</small></span
+                ></a
+              >
+            </li>
+            <li>
+              <a href="#selepas"
+                ><span class="route-node" aria-hidden="true">4</span
+                ><span
+                  ><strong>Selepas sidang</strong
+                  ><small>Pulang jubah dan ambil skrol</small></span
+                ></a
+              >
+            </li>
+          </ol>
+        </section>
+      </div>
       <!-- Senarai semak daripada SKPG hingga tuntutan skrol. -->
-      <section id="langkah">
-        <h2>Senarai semak konvokesyen</h2>
-        <div class="card notice">
-          <strong>Langkah pertama · Lengkapkan SKPG</strong
-          ><!-- Terangkan cara memilih dan melengkapkan kaji selidik SKPG. -->
-          <p>
-            Jawab kaji selidik di portal GREaT dan simpan slip sebelum
-            mengesahkan kehadiran konvokesyen.
-          </p>
-          <a href="https://great.mohe.gov.my/">Buka portal GREaT KPT</a
-          ><!-- Terangkan cara memilih dan melengkapkan kaji selidik SKPG. -->
-          <p>
-            Pilih <strong>SKPG</strong> yang dilabel sebagai soal selidik semasa
-            konvokesyen. Menu SKPG 2.0 digunakan untuk mengemas kini status
-            pekerjaan.
-          </p>
-        </div>
+      <section id="langkah" data-view>
+        <h2>Apa yang perlu dibuat?</h2>
         <div class="card progress-card">
-          <strong id="status" aria-live="polite">0 daripada 8 selesai</strong
-          ><progress
+          <strong id="status" aria-live="polite">0 daripada 8 selesai</strong>
+          <progress
             id="progress"
             value="0"
             max="8"
             aria-label="Kemajuan persediaan"
-          ></progress
-          ><!-- Ringkaskan tindakan graduan untuk bahagian ini. -->
+          ></progress>
+          <!-- Penanda ini dikemas kini apabila langkah ditanda selesai. -->
           <p id="next"></p>
           <small id="storage"
-            >Kemajuan disimpan dalam pelayar ini. Tandakan yang berkenaan dengan
-            urusan anda.</small
+            >Tandakan langkah yang selesai. Kemajuan disimpan dalam pelayar
+            ini.</small
           >
         </div>
+
+        <h3 class="phase-title">Sebelum konvokesyen</h3>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="skpg" />Lengkapkan SKPG dan simpan
-            slip</label
-          ><!-- Terangkan cara memilih dan melengkapkan kaji selidik SKPG. -->
+            ><input type="checkbox" id="skpg" />Isi SKPG dan simpan slip</label
+          >
+          <!-- Kenal pasti menu soal selidik yang betul dalam GREaT. -->
           <p>
-            Selepas rekod tersedia, jawab kaji selidik di GREaT. Simpan
-            tangkapan skrin atau cetak slip untuk dimuat naik dan dibawa semasa
-            mengambil jubah. Graduan yang tidak hadir juga perlu menjawab SKPG.
+            Pilih <strong>SKPG</strong> untuk soal selidik konvokesyen.
+            <strong>SKPG 2.0</strong> untuk kemas kini status pekerjaan.
           </p>
-          <a href="https://great.mohe.gov.my/">Portal GREaT KPT</a>
+          <ul class="short-list">
+            <li>Simpan tangkapan skrin atau cetak slip selepas selesai.</li>
+            <li>Isi SKPG walaupun anda tidak hadir ke majlis.</li>
+          </ul>
+          <a class="button" href="https://great.mohe.gov.my/">Buka GREaT KPT</a>
         </article>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="fees" />Semak tunggakan dan selesaikan
-            yuran</label
-          ><!-- Nyatakan tarikh bayaran dan beza yuran majlis dengan tunggakan. -->
-          <p>
-            Jika ada tunggakan, jelaskan selewat-lewatnya
-            <mark>25 November</mark> mengikut jadual rasmi. Bayar yuran
-            konvokesyen <mark>RM400</mark> dalam portal graduan sebelum atau
-            pada <mark>30 November</mark>. Yuran konvokesyen terpakai kepada
-            graduan yang hadir.
-          </p>
-          <a href="https://kptmpay.kptm.edu.my/">KPTM Pay</a> ·
+            ><input type="checkbox" id="fees" />Bayar yuran yang
+            berkenaan</label
+          >
+          <ul class="short-list">
+            <li>
+              <mark>25 November</mark> · Jelaskan tunggakan jika ada.
+              <a href="https://kptmpay.kptm.edu.my/">Buka KPTM Pay</a>.
+            </li>
+            <li>
+              <mark>30 November</mark> · Jika hadir, bayar
+              <mark>RM400</mark> melalui
+              <a href="https://graduan.kptm.edu.my/">portal graduan</a>.
+            </li>
+          </ul>
           <a href="https://convo.kptm.edu.my/web/yuran-konvokesyen/"
             >Panduan bayaran</a
           >
@@ -678,99 +715,85 @@
         </article>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="rsvp" />Sahkan kehadiran dan simpan
-            slip</label
-          ><!-- Bezakan tarikh pembukaan portal dan tarikh akhir kemas kini. -->
-          <p>
-            Portal dibuka secara umum pada 7 Oktober. Bagi Sesi 0726, pengesahan
-            bermula pada Isnin, 23 November. Lengkapkan urusan ini
-            selewat-lewatnya <mark>30 November</mark>.
-          </p>
-          <ol>
-            <li>Selesaikan bayaran konvokesyen.</li>
-            <li>
-              Muat naik <mark>slip SKPG</mark> dan gambar mengikut spesifikasi
-              portal. Jika portal meminta petikan, ikut arahan portal. Keperluan
-              petikan disebut dalam makluman kumpulan.
-            </li>
-            <li>
-              Sahkan kehadiran dan simpan <mark>Slip Pengesahan Graduan</mark>.
-            </li>
-          </ol>
-          <!-- Bezakan tarikh pembukaan portal dan tarikh akhir kemas kini. -->
-          <p>Maklumat hanya boleh dikemas kini sehingga tarikh akhir.</p>
-          <a href="https://graduan.kptm.edu.my/"
-            >Sistem Pengesahan Kehadiran Graduan</a
+            ><input type="checkbox" id="rsvp" />Sahkan kehadiran</label
           >
-          <article class="card reference-card">
-            <h3>Cara log masuk kali pertama menurut poster KPTM</h3>
-            <ol>
-              <li>
-                Masukkan nombor ID pelajar diikuti
-                <strong>@kptm.edu.my</strong>, contohnya 12345678@kptm.edu.my.
-                Format @student.kptm.edu.my tidak digunakan untuk log masuk
-                pertama.
-              </li>
-              <li>
-                Kata laluan awal ialah nombor kad pengenalan graduan. Masukkan
-                hanya dalam portal rasmi.
-              </li>
-              <li>
-                Kemas kini alamat e-mel kepada alamat peribadi dan tetapkan kata
-                laluan baharu. Log masuk semula sebelum mengesahkan kehadiran.
-              </li>
-            </ol>
-          </article>
+          <!-- Letakkan tarikh akhir sebelum senarai tindakan. -->
+          <p>Siapkan sebelum atau pada <mark>30 November</mark>.</p>
+          <ol class="short-list">
+            <li>
+              Muat naik slip SKPG dan gambar mengikut syarat portal. Hantar
+              petikan jika diminta.
+            </li>
+            <li>Sahkan kehadiran selepas bayaran lengkap.</li>
+            <li>Simpan <mark>Slip Pengesahan Graduan</mark>.</li>
+          </ol>
+          <div class="actions">
+            <a class="button" href="https://graduan.kptm.edu.my/"
+              >Buka portal graduan</a
+            ><a href="#log-masuk">Cara log masuk kali pertama</a>
+          </div>
         </article>
+
+        <h3 class="phase-title">Minggu konvokesyen</h3>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="practice" />Ikuti raptai 16
-            Disember</label
-          ><!-- Ringkaskan tindakan graduan untuk bahagian ini. -->
-          <p>Rujuk <a href="#raptai">masa, tempat dan siaran raptai</a>.</p>
+            ><input type="checkbox" id="practice" />Ikuti raptai</label
+          >
+          <!-- Pautkan tarikh kepada lokasi, pakaian dan pilihan siaran. -->
+          <p>
+            <mark>16 Disember · 2.30 petang</mark> ·
+            <a href="#raptai">Tempat dan cara mengikuti raptai</a>
+          </p>
         </article>
         <article class="card journey-step">
           <label class="task"
             ><input type="checkbox" id="gown" />Ambil jubah, hud emas dan kad
             RFID</label
-          ><!-- Senaraikan dokumen dan butiran pengambilan jubah. -->
+          >
+          <!-- Ingatkan graduan tentang slip dan jadual kaunter. -->
           <p>
-            Bawa kedua-dua slip. Semak
-            <a href="#jubah">jadual, lokasi dan urusan wakil</a>.
+            <mark>17 atau 18 Disember</mark> · Bawa slip pengesahan dan slip
+            SKPG. <a href="#jubah">Lihat lokasi dan syarat wakil</a>.
           </p>
         </article>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="stage" />Lapor diri dan hadir Sidang
+            ><input type="checkbox" id="stage" />Lapor diri untuk Sidang
             4</label
-          ><!-- Terangkan waktu dan kelengkapan untuk lapor diri. -->
+          >
+          <!-- Tunjukkan waktu berkumpul dan pautan pakaian hari majlis. -->
           <p>
-            Datang dengan <mark>kad RFID</mark>, pakaian lengkap dan hud. Rujuk
-            <a href="#sidang">jadual hari majlis</a>.
+            <mark>20 Disember · 12.30 tengah hari</mark> · Bawa kad RFID dan set
+            jubah lengkap. <a href="#pakaian">Semak pakaian</a> ·
+            <a href="#sidang">Lihat jadual sidang</a>.
           </p>
         </article>
+
+        <h3 class="phase-title">Selepas sidang</h3>
         <article class="card journey-step">
           <label class="task"
-            ><input type="checkbox" id="return" />Pulangkan jubah</label
-          ><!-- Terangkan urusan di kaunter selepas sidang. -->
+            ><input type="checkbox" id="return" />Pulangkan set jubah</label
+          >
+          <!-- Nyatakan borang dan kaunter yang diperlukan. -->
           <p>
-            Bawa Senarai Semak Pemulangan Jubah &amp; Pengambilan Skrol ke Dewan
-            Tun Razak 3.
+            Bawa borang senarai semak ke Dewan Tun Razak 3.
+            <a href="#selepas">Lihat waktu kaunter</a>.
           </p>
         </article>
         <article class="card journey-step">
           <label class="task"
             ><input type="checkbox" id="scroll" />Ambil skrol dan
             transkrip</label
-          ><!-- Ringkaskan tindakan graduan untuk bahagian ini. -->
+          >
+          <!-- Ingatkan graduan supaya terus ke kaunter selepas sidang. -->
           <p>
-            Ambil selepas sidang pada hari yang sama. Selesaikan SKPG dan
-            pastikan tiada tunggakan.
+            Ambil pada hari yang sama, dalam masa sejam selepas sidang tamat.
+            Pastikan SKPG lengkap dan tiada tunggakan.
           </p>
         </article>
       </section>
       <!-- Syarat pakaian graduan perempuan dan lelaki. -->
-      <section id="pakaian">
+      <section id="pakaian" data-view>
         <h2>Pakaian graduan</h2>
         <!-- Terangkan pakaian atau cara memakai kelengkapan majlis. -->
         <p>
@@ -864,7 +887,7 @@
         </article>
       </section>
       <!-- Jadual Sidang 4 dan butang muat turun kalendar. -->
-      <section id="jadual">
+      <section id="jadual" data-view>
         <h2>Jadual CT104</h2>
         <div class="actions">
           <button type="button" id="calendar">
@@ -966,10 +989,36 @@
         </article>
       </section>
       <!-- Maklumat tetamu, Alumni dan pilihan jika tidak hadir dipaparkan terus. -->
-      <section id="makluman">
+      <section id="makluman" data-view>
+        <a class="button poster-link" href="#poster">Lihat semua poster</a>
         <h2>Makluman dan rujukan</h2>
-        <!-- Pautkan pembaca kepada bahan rujukan yang berkaitan. -->
-        <p><a href="#poster">Lihat poster dan bahan rujukan</a></p>
+        <!-- Panduan log masuk bersumberkan poster KPTM. -->
+        <article class="card" id="log-masuk">
+          <h3>Log masuk kali pertama</h3>
+          <ol class="short-list">
+            <li>
+              Gunakan nombor ID pelajar diikuti <strong>@kptm.edu.my</strong>.
+              Contoh: 12345678@kptm.edu.my. Format @student.kptm.edu.my tidak
+              diterima untuk log masuk pertama.
+            </li>
+            <li>
+              Masukkan nombor kad pengenalan sebagai kata laluan awal di portal
+              rasmi.
+            </li>
+            <li>
+              Tukar kepada e-mel peribadi dan cipta kata laluan baharu. Log
+              masuk semula untuk mengesahkan kehadiran.
+            </li>
+          </ol>
+          <!-- Bezakan tarikh buka umum dengan tarikh untuk Sesi 0726. -->
+          <p>
+            Portal dibuka secara umum pada 7 Oktober. Sesi 0726 bermula pada 23
+            November mengikut makluman kampus. Kemas kini ditutup selepas 30
+            November.
+          </p>
+          <a href="https://graduan.kptm.edu.my/">Buka portal graduan KPTM</a>
+        </article>
+
         <article class="card reference-card">
           <h3>Pas tetamu dan bantuan khas</h3>
           <!-- Terangkan kemasukan tetamu dan saluran bantuan khas. -->
@@ -1076,7 +1125,8 @@
         </article>
       </section>
       <!-- Poster asal disimpan dalam fail ini supaya boleh dibuka tanpa fail tambahan. -->
-      <section id="poster">
+      <section id="poster" data-view>
+        <a class="back-link" href="#makluman">← Kembali ke rujukan</a>
         <h2>Poster dan bahan rujukan</h2>
         <div class="grid poster-grid">
           <article class="card reference-card">
@@ -1126,6 +1176,44 @@
       </section>
     </main>
     <script>
+      /* Pautan berpalang membuka bahagian yang tepat dan menyokong butang Kembali. */
+      const views = [...document.querySelectorAll("[data-view]")];
+      const navigation = [...document.querySelectorAll("nav a")];
+      const home = document.querySelector("#ringkasan");
+
+      function showView() {
+        const target = document.getElementById(location.hash.slice(1));
+        const view = target?.closest("[data-view]") || home;
+
+        for (const section of views) {
+          section.hidden = section !== view;
+          section.classList.toggle("view-in", section === view);
+        }
+
+        const selected =
+          view === home
+            ? "#utama"
+            : view.id === "poster"
+              ? "#makluman"
+              : "#" + view.id;
+        for (const link of navigation) {
+          if (link.hash === selected) link.setAttribute("aria-current", "page");
+          else link.removeAttribute("aria-current");
+        }
+
+        // Pautan khusus seperti jadual raptai terus menunjukkan kad berkenaan.
+        if (target && target !== view && view.contains(target)) {
+          const targetHeading = target.querySelector("h2, h3") || target;
+          targetHeading.setAttribute("tabindex", "-1");
+          targetHeading.focus({ preventScroll: true });
+          target.scrollIntoView({ block: "start" });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }
+
+      window.addEventListener("hashchange", showView);
+      showView();
       // Pulihkan tanda semak daripada simpanan pelayar.
       const tasks = [...document.querySelectorAll(".task input")];
       const timeline = document.querySelector("#langkah");
